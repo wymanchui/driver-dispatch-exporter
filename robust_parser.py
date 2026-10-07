@@ -447,12 +447,12 @@ class DriverMessageParser:
             "rows": [RowData, ...],
         }
         """
-        # 1. 纠错姓名
-        text = self._correct_name(text)
+        # 1. 不再改写全文（原始数据必须原样）。姓名纠错只用于"识别司机"。
+        # V3: text 保持原样，driver 识别用纠错后的文本
 
         # 2. 元数据
         date_str = self._find_date(text)
-        driver = self._find_driver(text)
+        driver = self._find_driver(self._correct_name(text))  # 仅识别用纠错
         riders_found = self._find_riders(text)
         has_no_rider = self._has_no_rider(text)
         has_rider = len(riders_found) > 0 and not has_no_rider
@@ -569,8 +569,8 @@ class DriverMessageParser:
                         continue
                     if re.match(r'\d{1,2}\s*月', rls) and not date_line:
                         date_line = rls
-                    elif any(d in rls for d in self.all_drivers) and not name_line:
-                        name_line = rls
+                    elif any(d in self._correct_name(rls) for d in self.all_drivers) and not name_line:
+                        name_line = rls  # 行内容仍用原文（不纠错）
                 raw_data = f"{date_line}\n{name_line}\n{car_original.strip()}"
             else:
                 raw_data = car_original.strip()

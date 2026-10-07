@@ -1,0 +1,13 @@
+# Build
+build/
+dist/
+*.spec
+__pycache__/
+*.pyc
+
+# Config (user-specific)
+freight_config.json
+
+# Temp test files
+测试/
+每天司机数据/

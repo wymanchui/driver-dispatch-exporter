@@ -23,7 +23,7 @@ DEFAULT_SAVE_DIR = r"C:\Users\ADMIN\Desktop\每天司机数据"
 class FreightLedgerApp:
     def __init__(self, root: tk.Tk):
         self.root = root
-        self.root.title("司机发货登记 v2.1")
+        self.root.title("司机发货登记 v3.0")
         self.root.geometry("1100x780")
         self.root.configure(bg=BG_COLOR)
 
